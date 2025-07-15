@@ -256,24 +256,6 @@
       }
     });
 
-    // function handleResize() {
-    //   isMobile = window.innerWidth < 768;
-    //   const savedState = localStorage.getItem("sidebarOpen");
-
-    //   if (!isMobile) {
-    //     if (savedState === "false") {
-    //       closeSidebar();
-    //     } else {
-    //       openSidebar();
-    //     }
-    //     hideBtn.style.display = "block";
-    //     showBtn.style.display = savedState === "true" ? "none" : "block";
-    //   } else {
-    //     closeSidebar();
-    //     hideBtn.style.display = "none";
-    //     showBtn.style.display = "none";
-    //   }
-    // }
     function handleResize() {
   isMobile = window.innerWidth < 768;
   const savedState = localStorage.getItem("sidebarOpen");
@@ -284,8 +266,6 @@
     } else {
       openSidebar();
     }
-    // No need to manually toggle button visibility here,
-    // it's already handled inside openSidebar() and closeSidebar()
   } else {
     closeSidebar();
     hideBtn.style.display = "none";
