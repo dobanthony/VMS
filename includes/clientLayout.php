@@ -106,7 +106,7 @@ $email = $_SESSION['user']['email'];
   </form>
   <ul class="nav flex-column mb-3">
     <li class="nav-item"><a href="/vrms-project/views/dashboard/client.php" class="nav-link">Dashboard</a></li>
-    <li class="nav-item"><a href="#" class="nav-link">🧾 My Orders</a></li>
+    <li class="nav-item"><a class="nav-link" href="/vrms-project/views/appointment/book.php">Book Appointment</a></li>
     <li class="nav-item"><a href="#" class="nav-link">📩 Inbox</a></li>
     <li class="nav-item"><a href="#" class="nav-link">🔔 Notifications</a></li>
     <li class="nav-item"><a href="#" class="nav-link">Settings</a></li>

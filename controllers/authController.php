@@ -64,14 +64,14 @@ if (isset($_POST['login'])) {
         // ✅ Redirect user based on role
         switch ($user['role']) {
             case 'admin':
-                header("Location: ../views/dashboard/admin.php");
+                header("Location: ../views/Admin/admin.php");
                 break;
             case 'veterinarian':
-                header("Location: ../views/dashboard/veterinarian.php");
+                header("Location: ../views/Veterinarian/veterinarian.php");
                 break;
             case 'client':
             default:
-                header("Location: ../views/dashboard/client.php");
+                header("Location: ../views/Client/client.php");
                 break;
         }
         exit;

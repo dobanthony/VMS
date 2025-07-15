@@ -134,7 +134,7 @@ if (!isset($_SESSION['user']) || $_SESSION['user']['role'] !== 'admin') {
   </form>
   <ul class="nav flex-column mb-3">
     <li class="nav-item"><a href="/vrms-project/views/dashboard/admin.php" class="nav-link">🏠 Dashboard</a></li>
-    <li class="nav-item"><a href="/vrms-project/views/users/manage_users.php" class="nav-link">👥 Manage Users</a></li>
+    <li class="nav-item"><a class="nav-link" href="../../views/appointment/manage.php">Manage Appointments</a></li>
     <li class="nav-item"><a href="/vrms-project/views/pets/manage_pets.php" class="nav-link">🐾 Manage Pets</a></li>
     <li class="nav-item"><a href="/vrms-project/views/appointments/manage_appointments.php" class="nav-link">📅 Appointments</a></li>
     <li class="nav-item"><a href="/vrms-project/views/reports/index.php" class="nav-link">📁 Reports</a></li>
