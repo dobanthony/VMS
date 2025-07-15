@@ -1,5 +1,8 @@
-<?php include '../../includes/clientLayout.php'; ?>
-
+<?php
+include '../../includes/clientLayout.php';
+require_once '../../includes/functions.php';
+requireRole('client');
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>

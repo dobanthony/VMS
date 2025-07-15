@@ -1,4 +1,5 @@
 <?php
+include '../../includes/adminLayout.php';
 require_once '../../includes/functions.php';
 requireRole('admin');
 ?>
@@ -11,6 +12,5 @@ requireRole('admin');
 <body>
     <h1>Welcome, Admin <?= htmlspecialchars($_SESSION['user']['name']) ?></h1>
     <p>This is the admin dashboard.</p>
-    <a href="../../logout.php">Logout</a>
 </body>
 </html>
