@@ -9,13 +9,14 @@ if (!isset($_SESSION['user'])) {
 
 // Handle Booking (Client)
 if (isset($_POST['book'])) {
-    $user_id = $_SESSION['user']['id'];
-    $date    = trim($_POST['date']);
-    $time    = trim($_POST['time']);
-    $reason  = trim($_POST['reason']);
+    $client_id = $_SESSION['user']['id'];
+    $appointment_date = trim($_POST['appointment_date']);
+    $vet_id = trim($_POST['vet_id']);
+    $pet_id = trim($_POST['pet_id']);
+    $notes = trim($_POST['notes']);
 
-    if ($date && $time && $reason) {
-        $success = Appointment::create($user_id, $date, $time, $reason);
+    if ($appointment_date && $vet_id && $pet_id && $notes) {
+        $success = Appointment::create($client_id, $vet_id, $pet_id, $appointment_date, $notes);
 
         $_SESSION[$success ? 'success' : 'error'] = $success
             ? "Appointment booked successfully!"
