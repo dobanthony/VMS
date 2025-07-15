@@ -74,4 +74,34 @@ class MedicalRecord
         $stmt = $pdo->prepare("DELETE FROM medical_records WHERE id = ?");
         return $stmt->execute([$id]);
     }
+    
+    public static function getByClientId($client_id)
+    {
+        global $pdo;
+        $stmt = $pdo->prepare("
+            SELECT mr.*, p.name AS pet_name, u.name AS vet_name
+            FROM medical_records mr
+            JOIN pets p ON mr.pet_id = p.id
+            JOIN users u ON mr.vet_id = u.id
+            WHERE p.user_id = ?
+            ORDER BY mr.record_date DESC
+        ");
+        $stmt->execute([$client_id]);
+        return $stmt->fetchAll();
+    }
+
+    public static function getByIdAndClient($record_id, $client_id)
+{
+    global $pdo;
+    $stmt = $pdo->prepare("
+        SELECT mr.*, p.name AS pet_name, u.name AS vet_name
+        FROM medical_records mr
+        JOIN pets p ON mr.pet_id = p.id
+        JOIN users u ON mr.vet_id = u.id
+        WHERE mr.id = ? AND p.user_id = ?
+    ");
+    $stmt->execute([$record_id, $client_id]);
+    return $stmt->fetch();
+}
+
 }

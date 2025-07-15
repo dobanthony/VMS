@@ -18,6 +18,9 @@ $records = MedicalRecord::getAll(); // Fetch all records
 <div class="container mt-4">
     <h3>Medical Records</h3>
 
+    <!-- ✅ Add Medical Record Button -->
+    <a href="add.php" class="btn btn-success mb-3">➕ Add Medical Record</a>
+
     <?php if (isset($_SESSION['success'])): ?>
         <div class="alert alert-success"><?= $_SESSION['success']; unset($_SESSION['success']); ?></div>
     <?php elseif (isset($_SESSION['error'])): ?>

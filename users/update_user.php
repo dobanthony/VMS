@@ -10,7 +10,7 @@ if (!isset($_SESSION['user_id'])) {
 $user_id = $_SESSION['user_id'];
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    // Fetch current user to verify password
+    // Fetch current user to verify password and get old avatar
     $stmt = $pdo->prepare("SELECT * FROM users WHERE id = ?");
     $stmt->execute([$user_id]);
     $user = $stmt->fetch();
@@ -30,12 +30,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $errors = [];
 
     if (!empty($currentPassword) || !empty($newPassword) || !empty($confirmPassword)) {
-        // Check current password
         if (!password_verify($currentPassword, $user['password'])) {
             $errors[] = "Invalid current password.";
         }
 
-        // Check if new password matches confirm
         if ($newPassword !== $confirmPassword) {
             $errors[] = "New password and confirm password do not match.";
         }
@@ -46,13 +44,43 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         }
     }
 
+    // Handle avatar upload
+    $avatarName = $user['avatar'] ?? null;
+    if (isset($_FILES['avatar']) && $_FILES['avatar']['error'] === UPLOAD_ERR_OK) {
+        $fileTmpPath = $_FILES['avatar']['tmp_name'];
+        $fileName = $_FILES['avatar']['name'];
+        $fileSize = $_FILES['avatar']['size'];
+        $fileType = $_FILES['avatar']['type'];
+        $fileNameCmps = explode(".", $fileName);
+        $fileExtension = strtolower(end($fileNameCmps));
+
+        $allowedExtensions = ['jpg', 'jpeg', 'png', 'gif'];
+        if (in_array($fileExtension, $allowedExtensions)) {
+            $newFileName = uniqid('avatar_', true) . '.' . $fileExtension;
+            $uploadDir = '../assets/img/avatars/';
+            $destPath = $uploadDir . $newFileName;
+
+            if (move_uploaded_file($fileTmpPath, $destPath)) {
+                // Delete old avatar if it exists
+                if (!empty($avatarName) && file_exists($uploadDir . $avatarName)) {
+                    unlink($uploadDir . $avatarName);
+                }
+                $avatarName = $newFileName;
+            } else {
+                $errors[] = "There was an error uploading the avatar.";
+            }
+        } else {
+            $errors[] = "Invalid avatar file type. Allowed: jpg, jpeg, png, gif.";
+        }
+    }
+
     if (!empty($errors)) {
         $_SESSION['error'] = implode("<br>", $errors);
         header("Location: edit_user.php");
         exit;
     }
 
-    // Update user info (including password if applicable)
+    // Build SQL
     $sql = "UPDATE users SET 
         name = :name,
         middle_name = :middle_name,
@@ -63,7 +91,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         blood_type = :blood_type,
         address = :address,
         contact = :contact,
-        email = :email";
+        email = :email,
+        avatar = :avatar";
 
     if ($updatePassword) {
         $sql .= ", password = :password";
@@ -84,6 +113,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         ':address'      => $_POST['address'],
         ':contact'      => $_POST['contact'],
         ':email'        => $_POST['email'],
+        ':avatar'       => $avatarName,
         ':id'           => $user_id
     ];
 
@@ -93,7 +123,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     $stmt->execute($params);
 
-    // Refresh session
+    // Refresh session user
     $stmt = $pdo->prepare("SELECT * FROM users WHERE id = ?");
     $stmt->execute([$user_id]);
     $updatedUser = $stmt->fetch();

@@ -62,4 +62,18 @@ class Appointment
         $stmt->execute([$id]);
         return $stmt->fetch();
     }
+    
+    public static function getApprovedPetsByVet($vet_id)
+    {
+        global $pdo;
+        $stmt = $pdo->prepare("
+            SELECT DISTINCT p.id, p.name
+            FROM appointments a
+            JOIN pets p ON a.pet_id = p.id
+            WHERE a.vet_id = ? AND a.status = 'approved'
+        ");
+        $stmt->execute([$vet_id]);
+        return $stmt->fetchAll();
+    }
+
 }

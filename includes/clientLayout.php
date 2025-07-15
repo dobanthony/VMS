@@ -105,11 +105,11 @@ $email = $_SESSION['user']['email'];
     <input type="text" class="form-control form-control-sm" placeholder="Search..." />
   </form>
   <ul class="nav flex-column mb-3">
-    <li class="nav-item"><a href="/vrms-project/views/dashboard/client.php" class="nav-link">Dashboard</a></li>
+    <li class="nav-item"><a href="/vrms-project/views/Client/client.php" class="nav-link">Dashboard</a></li>
     <li class="nav-item"><a class="nav-link" href="/vrms-project/views/Pet/add.php">🐾 Add Pet</a></li>
     <li class="nav-item"><a class="nav-link" href="/vrms-project/views/Pet/view.php">🐾 View Pet</a></li>
     <li class="nav-item"><a class="nav-link" href="/vrms-project/views/appointment/book.php">Book Appointment</a></li>
-    <li class="nav-item"><a href="#" class="nav-link">📩 Inbox</a></li>
+    <li class="nav-item"><a href="/vrms-project/views/medical_records/my_medical_records.php" class="nav-link"> Medical Records</a></li>
     <li class="nav-item"><a href="#" class="nav-link">🔔 Notifications</a></li>
     <li class="nav-item"><a href="#" class="nav-link">Settings</a></li>
   </ul>
@@ -117,20 +117,24 @@ $email = $_SESSION['user']['email'];
 </nav>
 
 <!-- Topbar -->
+<?php
+$avatar = !empty($_SESSION['user']['avatar']) ? $_SESSION['user']['avatar'] : 'default.jpg';
+$roleLabel = ucfirst($_SESSION['user']['role']);
+?>
 <nav id="topbar" class="d-flex justify-content-between align-items-center px-3 shadow-sm">
   <div class="d-flex align-items-center gap-3">
     <button id="toggleArrow" class="btn p-1">&#9776;</button>
     <h4 class="fw-bold text-success">VRMS</h4>
   </div>
   <div class="position-relative">
-    <img src="/vrms-project/assets/img/default-avatar.jpg" class="avatar" id="profileAvatar"/>
+    <img src="/vrms-project/assets/img/avatars/<?= htmlspecialchars($avatar) ?>" class="avatar" id="profileAvatar"/>
     <div class="profile-modal shadow rounded" id="profileModal">
       <div class="d-flex align-items-center gap-3 p-3 border-bottom">
-        <img src="/vrms-project/assets/img/default-avatar.jpg" class="avatar-lg" />
+        <img src="/vrms-project/assets/img/avatars/<?= htmlspecialchars($avatar) ?>" class="avatar-lg" />
         <div>
-          <div class="fw-bold">Hi, <?= htmlspecialchars($name) ?></div>
-          <div class="text-muted small"><?= htmlspecialchars($email) ?></div>
-          <div class="text-primary small bg-light px-2 py-1 rounded d-inline">Client</div>
+          <div class="fw-bold">Hi, <?= htmlspecialchars($_SESSION['user']['name']) ?></div>
+          <div class="text-muted small"><?= htmlspecialchars($_SESSION['user']['email']) ?></div>
+          <div class="text-primary small bg-light px-2 py-1 rounded d-inline"><?= $roleLabel ?></div>
         </div>
       </div>
       <div class="p-3">
@@ -140,6 +144,7 @@ $email = $_SESSION['user']['email'];
     </div>
   </div>
 </nav>
+
 
 <!-- Overlay -->
 <div id="overlay"></div>
