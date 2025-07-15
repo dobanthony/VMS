@@ -1,4 +1,5 @@
 <?php
+include '../../includes/vetLayout.php';
 require_once '../../includes/functions.php';
 requireRole('veterinarian');
 ?>

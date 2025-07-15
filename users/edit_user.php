@@ -26,8 +26,8 @@ switch ($role) {
     case 'admin':
         include '../includes/adminLayout.php';
         break;
-    case 'veterinary':
-        include '../includes/veterinaryLayout.php';
+    case 'veterinarian':
+        include '../includes/vetLayout.php';
         break;
     default:
         include '../includes/clientLayout.php';
